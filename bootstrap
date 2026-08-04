@@ -1,3 +1,30 @@
-THIS="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+#!/usr/bin/env bash
+set -euo pipefail
 
-echo Bootstrapping MacOS environment...
+echo "Bootstrapping MacOS environment..."
+
+# Install Xcode Command Line Tools if missing
+if ! xcode-select -p >/dev/null 2>&1; then
+  echo "Installing Xcode Command Line Tools..."
+  xcode-select --install
+
+  echo "Please complete the Xcode Command Line Tools installation and rerun."
+  exit 1
+fi
+
+echo "Installing Homebrew..."
+if ! command -v brew >/dev/null 2>&1; then
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  eval "$(brew shellenv)"
+fi
+
+echo "Installing GitHub CLI..."
+brew install gh
+
+echo "Authenticate with GitHub..."
+gh auth login
+
+echo "Cloning private setup repository..."
+gh repo clone dejannov/macos-setup ~/Documents/setup
+
+~/Documents/setup/install
