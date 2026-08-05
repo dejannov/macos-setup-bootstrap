@@ -10,10 +10,9 @@ while ! xcode-select -p >/dev/null 2>&1; do
     echo "Installing Xcode Command Line Tools..."
     xcode-select --install || true
     firstTime=0
-  else
-    echo "Please complete the installer window that has appeared (check the background for the installer)."
   fi
 
+  echo "Please complete the installer window that has appeared (check the background for the installer)."
   sleep 5
 done
 
