@@ -10,9 +10,10 @@ if ! xcode-select -p >/dev/null 2>&1; then
 
   echo "Please complete the installer window that has appeared (check the background for the installer)."
 
-  until xcode-select -p >/dev/null
+  until xcode-select -p >/dev/null 2>&1
   do
     sleep 5
+    echo "Waiting for you to finish the Xcode Command Line Tools installation..."
   done
 
   echo "Git is now available."
