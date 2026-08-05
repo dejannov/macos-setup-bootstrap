@@ -3,10 +3,10 @@ set -euo pipefail
 
 echo "Bootstrapping MacOS environment..."
 
-# Install Xcode Command Line Tools if missing
-if ! command -v git >/dev/null 2>&1; then
+# Install Git CLI if missing
+if ! xcode-select -p >/dev/null 2>&1; then
   echo "Installing Xcode Command Line Tools..."
-  xcode-select --install 2>/dev/null || true
+  xcode-select --install
 
   echo "Please complete the installer window that has appeared (check the background for the installer)."
 
@@ -16,14 +16,6 @@ if ! command -v git >/dev/null 2>&1; then
   done
 
   echo "Git is now available."
-fi
-
-if ! xcode-select -p >/dev/null 2>&1; then
-  echo "Installing Xcode Command Line Tools..."
-  xcode-select --install
-
-  echo "Please complete the Xcode Command Line Tools installation and rerun."
-  exit 1
 fi
 
 echo "Installing Homebrew..."
