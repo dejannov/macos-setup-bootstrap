@@ -14,7 +14,6 @@ while ! xcode-select -p >/dev/null 2>&1; do
     echo "Please complete the installer window that has appeared (check the background for the installer)."
   fi
 
-  echo "Please complete the installer window if it has appeared."
   sleep 5
 done
 
