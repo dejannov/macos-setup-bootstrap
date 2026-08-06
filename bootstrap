@@ -1,7 +1,13 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# Use the following command to run this script from a remote location (without downloading it first) in order to bootstrap the MacOS installation process:
+# bash <(curl -fsSL https://raw.githubusercontent.com/dejannov/macos-setup/main/bootstrap)
+
 echo "Bootstrapping MacOS environment..."
+echo "This script will install Xcode Command Line Tools, Homebrew, GitHub CLI, and clone the private setup repository."
+echo "You will be prompted to authenticate with GitHub during the process."
+echo "Please ensure you have an active internet connection and sufficient permissions to install software on this machine."
 
 # Install Git CLI if missing
 firstTime=1
