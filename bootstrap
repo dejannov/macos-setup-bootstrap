@@ -1,15 +1,16 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# Please ensure you have an active internet connection and sufficient permissions to install software on the new machine.
 # Use the following command to run this script from a remote location (without downloading it first) in order to bootstrap the MacOS installation process:
 # bash <(curl -fsSL https://raw.githubusercontent.com/dejannov/macos-setup/main/bootstrap)
 
-echo "Bootstrapping MacOS environment..."
-echo "This script will install Xcode Command Line Tools, Homebrew, GitHub CLI, and clone the private setup repository."
-echo "You will be prompted to authenticate with GitHub during the process."
-echo "Please ensure you have an active internet connection and sufficient permissions to install software on this machine."
+SETUP_DIR="$HOME/Documents/setup"
+
+echo "Bootstrapping MacOS setup environment..."
 
 if ! test -r "$HOME/Library/Application Support/com.apple.TCC/TCC.db"; then
+    echo
     echo "Terminal needs Full Disk Access."
     echo
     echo "1. Open System Settings."
@@ -21,40 +22,19 @@ if ! test -r "$HOME/Library/Application Support/com.apple.TCC/TCC.db"; then
     exit 1
 fi
 
-# Install Git CLI if missing
-firstTime=1
-while ! xcode-select -p >/dev/null 2>&1; do
-  if [[ $firstTime -eq 1 ]]; then
-    echo "Installing Xcode Command Line Tools..."
-    xcode-select --install || true
-    firstTime=0
+if [[ ! -d "$SETUP_DIR/.git" ]]; then
+  bash <(curl -fsSL https://raw.githubusercontent.com/dejannov/macos-setup/main/bootstrap-init)
+
+  # Authenticate with GitHub
+  if ! gh auth status >/dev/null 2>&1; then
+    echo "Authenticate with GitHub..."
+    gh auth login
   fi
 
-  echo "Please complete the installer window that has appeared (check the background for the installer)."
-  sleep 5
-done
-
-echo "Installing Homebrew..."
-if ! command -v brew >/dev/null 2>&1; then
-  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-
-  if [[ -x /opt/homebrew/bin/brew ]]; then
-    eval "$(/opt/homebrew/bin/brew shellenv)"
-  elif [[ -x /usr/local/bin/brew ]]; then
-    eval "$(/usr/local/bin/brew shellenv)"
-  else
-    echo "Homebrew installation failed."
-    exit 1
-  fi
+  echo "Cloning private setup repository..."
+  gh repo clone dejannov/macos-setup ~/Documents/setup
 fi
 
-echo "Installing GitHub CLI..."
-brew install gh
-
-echo "Authenticate with GitHub..."
-gh auth login
-
-echo "Cloning private setup repository..."
-gh repo clone dejannov/macos-setup ~/Documents/setup
+echo "... MacOS setup environment is ready."
 
 ~/Documents/setup/install

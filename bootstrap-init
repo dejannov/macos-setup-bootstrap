@@ -1,0 +1,46 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+echo "This script will install Xcode Command Line Tools, Homebrew, Git and GitHub CLIs if not already installed."
+
+# Install Xcode Command Line Tools
+firstTime=1
+while ! xcode-select -p >/dev/null 2>&1; do
+  if [[ $firstTime -eq 1 ]]; then
+    echo "Installing Xcode Command Line Tools..."
+    xcode-select --install || true
+    firstTime=0
+  fi
+
+  echo "Please complete the installer window (check behind Terminal)."
+  sleep 5
+done
+
+# Install Homebrew
+if ! command -v brew >/dev/null 2>&1; then
+  echo "Installing Homebrew..."
+
+  bash <(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)
+
+  if [[ -x /opt/homebrew/bin/brew ]]; then
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+  elif [[ -x /usr/local/bin/brew ]]; then
+    eval "$(/usr/local/bin/brew shellenv)"
+  else
+    echo "Homebrew installation failed."
+    exit 1
+  fi
+fi
+
+# Install Git CLI
+if ! command -v git >/dev/null 2>&1; then
+  echo "Installing git command-line client..."
+  brew install git
+  git --version
+fi
+
+# Install GitHub CLI
+if ! command -v gh >/dev/null 2>&1; then
+  echo "Installing GitHub CLI..."
+  brew install gh
+fi
