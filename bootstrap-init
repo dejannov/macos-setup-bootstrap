@@ -1,8 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-echo "This script will install Xcode Command Line Tools, Homebrew, Git and GitHub CLIs if not already installed."
-
 # Install Xcode Command Line Tools
 firstTime=1
 while ! xcode-select -p >/dev/null 2>&1; do

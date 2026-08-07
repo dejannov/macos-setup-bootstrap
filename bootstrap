@@ -23,7 +23,7 @@ if ! test -r "$HOME/Library/Application Support/com.apple.TCC/TCC.db"; then
 fi
 
 if [[ ! -d "$SETUP_DIR/.git" ]]; then
-  bash <(curl -fsSL https://raw.githubusercontent.com/dejannov/macos-setup/main/bootstrap-init)
+  bash <(curl -fsSL https://raw.githubusercontent.com/dejannov/macos-setup-bootstrap/main/bootstrap-init)
 
   # Authenticate with GitHub
   if ! gh auth status >/dev/null 2>&1; then
