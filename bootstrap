@@ -9,6 +9,18 @@ echo "This script will install Xcode Command Line Tools, Homebrew, GitHub CLI, a
 echo "You will be prompted to authenticate with GitHub during the process."
 echo "Please ensure you have an active internet connection and sufficient permissions to install software on this machine."
 
+if ! test -r "$HOME/Library/Application Support/com.apple.TCC/TCC.db"; then
+    echo "Terminal needs Full Disk Access."
+    echo
+    echo "1. Open System Settings."
+    echo "2. Privacy & Security → Full Disk Access."
+    echo "3. Enable Terminal."
+    echo "4. Quit Terminal completely."
+    echo "5. Start Terminal again."
+    echo "6. Re-run this script."
+    exit 1
+fi
+
 # Install Git CLI if missing
 firstTime=1
 while ! xcode-select -p >/dev/null 2>&1; do
