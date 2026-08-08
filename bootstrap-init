@@ -1,6 +1,19 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+if ! test -r "$HOME/Library/Application Support/com.apple.TCC/TCC.db"; then
+    echo
+    echo "Terminal needs Full Disk Access."
+    echo
+    echo "1. Open System Settings."
+    echo "2. Privacy & Security → Full Disk Access."
+    echo "3. Enable Terminal."
+    echo "4. Quit Terminal completely."
+    echo "5. Start Terminal again."
+    echo "6. Re-run this script."
+    exit 1
+fi
+
 # Install Xcode Command Line Tools
 firstTime=1
 while ! xcode-select -p >/dev/null 2>&1; do

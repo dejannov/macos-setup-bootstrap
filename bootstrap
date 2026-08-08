@@ -9,22 +9,9 @@ SETUP_DIR="$HOME/Documents/setup"
 
 echo "Bootstrapping MacOS setup environment..."
 
-if ! test -r "$HOME/Library/Application Support/com.apple.TCC/TCC.db"; then
-    echo
-    echo "Terminal needs Full Disk Access."
-    echo
-    echo "1. Open System Settings."
-    echo "2. Privacy & Security → Full Disk Access."
-    echo "3. Enable Terminal."
-    echo "4. Quit Terminal completely."
-    echo "5. Start Terminal again."
-    echo "6. Re-run this script."
-    exit 1
-fi
+bash <(curl -fsSL https://raw.githubusercontent.com/dejannov/macos-setup-bootstrap/main/bootstrap-init)
 
 if [[ ! -d "$SETUP_DIR/.git" ]]; then
-  bash <(curl -fsSL https://raw.githubusercontent.com/dejannov/macos-setup-bootstrap/main/bootstrap-init)
-
   # Authenticate with GitHub
   if ! gh auth status >/dev/null 2>&1; then
     echo "Authenticate with GitHub..."
