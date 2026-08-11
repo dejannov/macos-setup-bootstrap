@@ -17,10 +17,6 @@ refresh_homebrew_shellenv() {
   hash -r 2>/dev/null || true
 }
 
-echo "allow remote login and push java files from origin machine"
-echo "Then from the origin machine:"
-echo "scp -r ~/Documents/setup/content/java 192.168.1.249:Documents"
-
 SETUP_DIR="$HOME/Documents/setup"
 
 echo "Bootstrapping MacOS setup environment..."
